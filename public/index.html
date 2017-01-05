@@ -1,0 +1,30 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>PAD Finder</title>
+  </head>
+  <body>
+    <div class="new room button">
+      <form action="/newroom">
+	<input type="submit" value="Create a room" />
+      </form>
+    </div>
+
+    <div class="roomArea">
+      <table id="rooms">
+	<tr>
+	  <th>Dungeon</th>
+	  <th>User ID</th>
+	  <th>Leaders</th>
+	</tr>
+      </table>
+    </div>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-3.1.1.slim.min.js"
+	    integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
+	    crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

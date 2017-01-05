@@ -1,0 +1,36 @@
+<!doctype html>
+
+<html>
+  <title>New Room</title>
+  
+  <body>
+    <form id="inputs" action="/" method="post">
+      Dungeon:
+      <br>
+      <input type="text" id="dungeon" />
+      <br>
+      ID:
+      <br>
+      <input type="text" id="id" />
+      <br>
+      Leaders:
+      <br>
+      <input type="text" id="leaders" />
+      <br>
+      <input class="createRoom" type="submit" value="Create Room" />
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-3.1.1.slim.min.js"
+	    integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc="
+	    crossorigin="anonymous"></script>
+    <script>
+      var socket = io();
+
+      $('#inputs').submit(function() {
+      socket.emit('new room', {'dungeon': $('#dungeon').val(), 'id': $('#id').val(), 'leaders': $('#leaders').val()});
+      });
+    </script>
+  </body>
+
+</html>
