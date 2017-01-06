@@ -10,6 +10,8 @@ var port = 8000;
 //    console.log('Server listening at port %d', port);
 //});
 
+var rooms = [];
+
 http.listen(port, function() {
     console.log('Server listening at port %d', port);
 });
@@ -17,11 +19,13 @@ http.listen(port, function() {
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
-    res.sendFile('index.html', {root: __dirname + '/public'});
+    console.log('home get req');
+    res.sendFile('main.html', {root: __dirname + '/public'});
 });
 
 app.post('/', function(req, res) {
-    res.sendFile('index.html', {root: __dirname + '/public'});
+    console.log('home post req');
+    res.sendFile('main.html', {root: __dirname + '/public'});
 });
 
 app.get('/newroom', function(req, res) {
@@ -31,12 +35,16 @@ app.get('/newroom', function(req, res) {
 
 io.on('connection', function(socket) {
     console.log('connected');
-
-
+    
     socket.on('new room', function(inputs) {
-	console.log("received: " + inputs['dungeon'] + ", " + inputs['id'] + ", " + inputs['leaders']);
-	
-	io.emit('room changes', inputs);
+	console.log("received: " + inputs['dungeon'] + ", " + inputs['id'] + ", " + inputs['leaders']);	
+	//io.emit('room changes', inputs);
+	rooms.unshift(inputs);
+	io.emit('room update', rooms);	
+    });
+
+    socket.on('request update', function() {
+	io.emit('room update', rooms);
     });
 
 });
