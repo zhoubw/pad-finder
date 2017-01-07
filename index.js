@@ -35,8 +35,12 @@ app.get('/newroom', function(req, res) {
     res.sendFile('newroom.html', {root: __dirname + '/public'});
 });
 
-app.get('/:roomId/id', function(req, res) {
+app.get('/:roomKey', function(req, res, next) {
     res.sendFile('room.html', {root: __dirname + '/public'});
+});
+
+app.param('roomKey', function(req, res, next, roomKey) {
+    next();
 });
 
 io.on('connection', function(socket) {
@@ -47,15 +51,25 @@ io.on('connection', function(socket) {
 	console.log("received: " + inputs['dungeon'] + ", " + inputs['id'] + ", " + inputs['leaders']);	
 
 	var id = crypto.randomBytes(4).toString('hex');
-	//rooms.unshift({id: inputs});
 	rooms[id] = inputs;
 	keys.unshift(id);
 	
 	io.emit('room update', rooms, keys);	
     });
 
+    // lobby requests update
     socket.on('request update', function() {
 	io.emit('room update', rooms, keys);
+    });
+
+    // room requests load
+    socket.on('request load', function(key) {
+	var room = rooms[key];
+
+	if (room) {
+	    id = room['id'];
+	    io.emit('room load', id);
+	}
     });
 
 });

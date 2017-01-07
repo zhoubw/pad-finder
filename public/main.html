@@ -3,6 +3,37 @@
 <html>
   <head>
     <title>PAD Finder</title>
+
+    <style>
+      tr {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      }
+
+      table#rooms {
+      border-collapse: collapse;   
+      }
+      #roomBody tr {
+      background-color: #eee;
+      border-top: 1px solid #fff;
+      }
+      #roomBody tr:hover {
+      background-color: #ccc;
+      }
+      #roomBody th {
+      background-color: #fff;
+      }
+      #roomBody th, #example td {
+      padding: 3px 5px;
+      }
+      #roomBody td:hover {
+      cursor: pointer;
+      }
+    </style>
   </head>
   <body>
     <div class="new room button">
@@ -15,7 +46,7 @@
       <table id="rooms">
 	<thead>
 	  <tr>
-	    <th>Multiplayer Rooms</th>
+	    <th colspan="3">Lobby</th>
 	  </tr>
 	</thead>
 	<tfoot></tfoot>

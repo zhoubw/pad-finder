@@ -1,32 +1,39 @@
 var socket = io();
 socket.emit('request update');
 
+$('#roomBody').on('click', 'tr', function() {
+    var href = $(this).attr('data-id');
+    if (href) {
+	window.location = '/' + href;
+    }
+});
+
 socket.on('room update', function(rooms, keys) {
     $('#roomBody').empty();
 
-    // TODO: fix loop so that it works for <k, v> pair
-    /*
-    for (var i = 0; i < rooms.length; i++) {
-	var room = rooms[i];
-	dungeonRow = '<td>' + room['dungeon'] + '</td>';
-	idRow = '<td>' + room['id'] + '</td>';
-	leadersRow = '<td>' + room['leaders'] + '</td>';
-
-	// TODO: Make this clickable
-	$('#roomBody').append('<tr style="outline: thin solid">' + dungeonRow + idRow + leadersRow + '</tr>');
-    }
-    */
-    console.log(rooms);
-    console.log(keys);
     for (var i = 0; i < keys.length; i++) {
 	var key = keys[i];
 	var room = rooms[key];
 	dungeonRow = '<td>' + room['dungeon'] + '</td>';
-	idRow = '<td>' + room['id'] + '</td>';
 	leadersRow = '<td>' + room['leaders'] + '</td>';
 	
 	// TODO: Make this clickable
-	$('#roomBody').append('<tr style="outline: thin solid">' + dungeonRow + idRow + leadersRow + '</tr>');
-    }
-    
+	$('#roomBody').append('<tr data-id=' + key + '>' + dungeonRow + leadersRow + '</tr>');
+    }    
 });
+
+/*
+$(document).ready(function() {
+    $('#roomBody > tr').click(function() {
+	console.log('clicked');
+	
+        var href = $(this).find("data-id");
+	console.log(href);
+
+        if(href) {
+            window.location = href;
+        }
+
+    });
+});
+*/
