@@ -75,11 +75,7 @@ io.on('connection', function(socket) {
 
 	// delete room on click
 	if (room['clicked']) {
-	    var index = keys.indexOf(key);
-	    if (index > -1) {
-		keys.splice(key, 1);
-	    }
-	    delete rooms[key];
+	    removeRoomByKey(key);
 	    io.emit('room update', rooms, keys);
 	}
     });
@@ -96,3 +92,12 @@ io.on('connection', function(socket) {
 	rooms[key]['clicked'] = true;
     });
 });
+
+
+function removeRoomByKey(key) {
+    var index = keys.indexOf(key);
+    if (index > -1) {
+	keys.splice(key, 1);
+    }
+    delete rooms[key];
+}
