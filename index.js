@@ -50,11 +50,12 @@ io.on('connection', function(socket) {
     socket.on('new room', function(inputs) {
 	console.log("received: " + inputs['dungeon'] + ", " + inputs['id'] + ", " + inputs['leaders']);	
 
-	var id = crypto.randomBytes(4).toString('hex');
-	rooms[id] = inputs;
-	keys.unshift(id);
+	var key = crypto.randomBytes(4).toString('hex');
+	rooms[key] = inputs;
+	keys.unshift(key);
 	
-	io.emit('room update', rooms, keys);	
+	io.emit('room update', rooms, keys);
+	io.emit('redirect to room', {'key': key, 'id': inputs['id']});
     });
 
     // lobby requests update

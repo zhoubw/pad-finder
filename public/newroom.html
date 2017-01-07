@@ -4,7 +4,8 @@
   <title>New Room</title>
   
   <body>
-    <form id="inputs" action="/" method="post">
+    <!--<form id="inputs" action="/" method="post">-->
+    <form id="inputs" method="post">
       Dungeon:
       <br>
       <input type="text" id="dungeon" />
@@ -26,9 +27,20 @@
 	    crossorigin="anonymous"></script>
     <script>
       var socket = io();
+      var id = -1;
 
       $('#inputs').submit(function() {
-      socket.emit('new room', {'dungeon': $('#dungeon').val(), 'id': $('#id').val(), 'leaders': $('#leaders').val()});
+      id = $('#id').val();
+      
+      socket.emit('new room', {'dungeon': $('#dungeon').val(),
+      'id': $('#id').val(),
+      'leaders': $('#leaders').val()});
+      });
+
+      socket.on('redirect to room', function(pair) {
+      if (id == pair['id']) {
+      window.location = '/' + pair['key'];
+      }
       });
     </script>
   </body>
