@@ -17,23 +17,6 @@ socket.on('room update', function(rooms, keys) {
 	dungeonRow = '<td>' + room['dungeon'] + '</td>';
 	leadersRow = '<td>' + room['leaders'] + '</td>';
 	
-	// TODO: Make this clickable
 	$('#roomBody').append('<tr data-id=' + key + '>' + dungeonRow + leadersRow + '</tr>');
     }    
 });
-
-/*
-$(document).ready(function() {
-    $('#roomBody > tr').click(function() {
-	console.log('clicked');
-	
-        var href = $(this).find("data-id");
-	console.log(href);
-
-        if(href) {
-            window.location = href;
-        }
-
-    });
-});
-*/
