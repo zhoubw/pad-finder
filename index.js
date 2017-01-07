@@ -71,13 +71,12 @@ io.on('connection', function(socket) {
 	if (room) {
 	    id = room['id'];
 	    io.emit('room load', id);
-	}
-
-	// delete room on click
-	if (room['clicked']) {
-	    removeRoomByKey(key);
-	    io.emit('room update', rooms, keys);
-	}
+	    
+	    // delete room on click
+	    if (room['clicked']) {
+		removeRoomByKey(key);
+	    }
+	}	
     });
     
     // flag that room has been clicked
@@ -91,6 +90,11 @@ io.on('connection', function(socket) {
 	*/
 	rooms[key]['clicked'] = true;
     });
+
+    // delete room when release is requested
+    socket.on('request release', function(key) {
+	removeRoomByKey(key);
+    });
 });
 
 
@@ -100,4 +104,5 @@ function removeRoomByKey(key) {
 	keys.splice(key, 1);
     }
     delete rooms[key];
+    io.emit('room update', rooms, keys);
 }

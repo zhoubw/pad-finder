@@ -7,6 +7,10 @@ socket.emit('request load', currentKey);
 socket.on('room load', function(id) {
     if (!loaded) {
 	loaded = true;
-	$('body').append('<h1>' + id + '</h1>');
+	$('body').append('<h1>PAD room ID: ' + id + '</h1>');
     }
+});
+
+$('#release').submit(function() {
+    socket.emit('request release', currentKey);
 });
