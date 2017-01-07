@@ -2,9 +2,11 @@ var socket = io();
 socket.emit('request update');
 
 $('#roomBody').on('click', 'tr', function() {
-    var href = $(this).attr('data-id');
-    if (href) {
-	window.location = '/' + href;
+    var key = $(this).attr('data-id');
+    // send flag that room has been clicked
+    socket.emit('room clicked', key);
+    if (key) {
+	window.location = '/' + key;
     }
 });
 

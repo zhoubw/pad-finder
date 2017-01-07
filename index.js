@@ -48,8 +48,9 @@ io.on('connection', function(socket) {
 
     // adding a room
     socket.on('new room', function(inputs) {
-	console.log("received: " + inputs['dungeon'] + ", " + inputs['id'] + ", " + inputs['leaders']);	
+	//console.log("received: " + inputs['dungeon'] + ", " + inputs['id'] + ", " + inputs['leaders']);	
 
+	inputs['clicked'] = false;
 	var key = crypto.randomBytes(4).toString('hex');
 	rooms[key] = inputs;
 	keys.unshift(key);
@@ -71,6 +72,27 @@ io.on('connection', function(socket) {
 	    id = room['id'];
 	    io.emit('room load', id);
 	}
-    });
 
+	// delete room on click
+	if (room['clicked']) {
+	    var index = keys.indexOf(key);
+	    if (index > -1) {
+		keys.splice(key, 1);
+	    }
+	    delete rooms[key];
+	    io.emit('room update', rooms, keys);
+	}
+    });
+    
+    // flag that room has been clicked
+    socket.on('room clicked', function(key) {
+	/*
+	var index = keys.indexOf(key);
+	if (index > -1) {
+	    keys.splice(key, 1);
+	}
+	delete rooms[key];
+	*/
+	rooms[key]['clicked'] = true;
+    });
 });
